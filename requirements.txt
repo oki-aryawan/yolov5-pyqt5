@@ -26,7 +26,7 @@ pandas
 
 # extras --------------------------------------
 thop  # FLOPS computation
-pycocotools>=2.0  # COCO mAP
+#pycocotools>=2.0  # COCO mAP
 
 # pyqt5
 pyqt5

@@ -35,7 +35,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         parser = argparse.ArgumentParser()
         parser.add_argument('--weights', nargs='+', type=str,
-                            default='weights/yolov5s.pt', help='model.pt path(s)')
+                            default='weights/v1.pt', help='model.pt path(s)')
         # file/folder, 0 for webcam
         parser.add_argument('--source', type=str,
                             default='data/images', help='source')
@@ -181,10 +181,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "PyQt5+YOLOv5示例"))
-        self.pushButton_img.setText(_translate("MainWindow", "图片检测"))
-        self.pushButton_camera.setText(_translate("MainWindow", "摄像头检测"))
-        self.pushButton_video.setText(_translate("MainWindow", "视频检测"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Dashboard"))
+        self.pushButton_img.setText(_translate("MainWindow", "Image"))
+        self.pushButton_camera.setText(_translate("MainWindow", "Live Camera"))
+        self.pushButton_video.setText(_translate("MainWindow", "Video"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
 
     def init_slots(self):
@@ -194,7 +194,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.timer_video.timeout.connect(self.show_video_frame)
 
     def init_logo(self):
-        pix = QtGui.QPixmap('wechat.jpg')
+        pix = QtGui.QPixmap('tmb.png')
         self.label.setScaledContents(True)
         self.label.setPixmap(pix)
 
@@ -203,7 +203,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         name_list = []
 
         img_name, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, "打开图片", "", "*.jpg;;*.png;;All Files(*)")
+            self, "Open", "", "*.jpg;;*.png;;All Files(*)")
         if not img_name:
             return
 
@@ -250,7 +250,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def button_video_open(self):
         video_name, _ = QtWidgets.QFileDialog.getOpenFileName(
-            self, "打开视频", "", "*.mp4;;*.avi;;All Files(*)")
+            self, "Open", "", "*.mp4;;*.avi;;All Files(*)")
 
         if not video_name:
             return
@@ -258,7 +258,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         flag = self.cap.open(video_name)
         if flag == False:
             QtWidgets.QMessageBox.warning(
-                self, u"Warning", u"打开视频失败", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+                self, u"Warning", u"Failed", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
         else:
             self.out = cv2.VideoWriter('prediction.avi', cv2.VideoWriter_fourcc(
                 *'MJPG'), 20, (int(self.cap.get(3)), int(self.cap.get(4))))
@@ -273,14 +273,14 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             flag = self.cap.open(0)
             if flag == False:
                 QtWidgets.QMessageBox.warning(
-                    self, u"Warning", u"打开摄像头失败", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
+                    self, u"Warning", u"Failed", buttons=QtWidgets.QMessageBox.Ok, defaultButton=QtWidgets.QMessageBox.Ok)
             else:
                 self.out = cv2.VideoWriter('prediction.avi', cv2.VideoWriter_fourcc(
                     *'MJPG'), 20, (int(self.cap.get(3)), int(self.cap.get(4))))
                 self.timer_video.start(30)
                 self.pushButton_video.setDisabled(True)
                 self.pushButton_img.setDisabled(True)
-                self.pushButton_camera.setText(u"关闭摄像头")
+                self.pushButton_camera.setText(u"Stop")
         else:
             self.timer_video.stop()
             self.cap.release()
@@ -289,7 +289,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.init_logo()
             self.pushButton_video.setDisabled(False)
             self.pushButton_img.setDisabled(False)
-            self.pushButton_camera.setText(u"摄像头检测")
+            self.pushButton_camera.setText(u"Live Camera")
 
     def show_video_frame(self):
         name_list = []
