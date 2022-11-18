@@ -194,7 +194,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.timer_video.timeout.connect(self.show_video_frame)
 
     def init_logo(self):
-        pix = QtGui.QPixmap('tmb.png')
+        pix = QtGui.QPixmap('estrunaut.PNG')
         self.label.setScaledContents(True)
         self.label.setPixmap(pix)
 
